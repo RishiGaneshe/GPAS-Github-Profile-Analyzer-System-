@@ -29,9 +29,9 @@ services:
     container_name: gpas-app
     restart: unless-stopped
     ports:
-      - "${PORT:-3000}:3000"
+      - "${PORT:-3500}:3500"
     environment:
-      PORT: 3000
+      PORT: 3500
       DB_HOST: db
       DB_PORT: 3306
       DB_USER: ${DB_USER:-gpas_user}

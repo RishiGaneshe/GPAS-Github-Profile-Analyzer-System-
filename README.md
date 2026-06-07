@@ -61,7 +61,7 @@ cp .env.example .env
 Edit `.env`:
 
 ```env
-PORT=3000
+PORT=3500
 DB_HOST=localhost
 DB_PORT=3306
 DB_USER=root
@@ -92,31 +92,41 @@ You should see:
 ## API Endpoints
 
 | Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/` | Health check + endpoint listing |
-| `POST` | `/api/profiles/:username` | Analyze a GitHub user and store insights |
-| `GET` | `/api/profiles` | List all stored profiles |
-| `GET` | `/api/profiles/:username` | Get full stored data for one user |
-| `GET` | `/api/profiles/compare?users=user1,user2` | Compare two profiles |
-| `DELETE` | `/api/profiles/:username` | Delete a stored profile |
+🚀  GPAS server running on http://localhost:3500
+```
 
-### Example Usage (curl)
+<br>
 
+## API Reference
+
+### 1. Analyze Profile
+**Endpoint:** `POST /api/profiles/:username`
 ```bash
-# Analyze a profile
-curl -X POST http://localhost:3000/api/profiles/torvalds
+curl -X POST http://localhost:3500/api/profiles/torvalds
+```
 
-# List all profiles
-curl http://localhost:3000/api/profiles
+### 2. Get All Profiles
+**Endpoint:** `GET /api/profiles`
+```bash
+curl http://localhost:3500/api/profiles
+```
 
-# Get one profile's full data
-curl http://localhost:3000/api/profiles/torvalds
+### 3. Get Single Profile
+**Endpoint:** `GET /api/profiles/:username`
+```bash
+curl http://localhost:3500/api/profiles/torvalds
+```
 
-# Compare two profiles
-curl "http://localhost:3000/api/profiles/compare?users=torvalds,octocat"
+### 4. Compare Profiles
+**Endpoint:** `GET /api/profiles/compare?users=user1,user2`
+```bash
+curl "http://localhost:3500/api/profiles/compare?users=torvalds,octocat"
+```
 
-# Delete a profile
-curl -X DELETE http://localhost:3000/api/profiles/torvalds
+### 5. Delete Profile
+**Endpoint:** `DELETE /api/profiles/:username`
+```bash
+curl -X DELETE http://localhost:3500/api/profiles/torvalds
 ```
 
 ---
