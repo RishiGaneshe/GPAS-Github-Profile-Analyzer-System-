@@ -1,0 +1,12 @@
+node_modules/
+.env
+*.log
+
+# Docker ignores
+.dockerignore
+docker-compose.yml
+Dockerfile
+.git/
+.gitignore
+README.md
+_check.js

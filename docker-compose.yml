@@ -1,0 +1,54 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: gpas-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-gpas_root_2024}
+      MYSQL_DATABASE: ${DB_NAME:-gpas_db}
+      MYSQL_USER: ${DB_USER:-gpas_user}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-gpas_secure_pass}
+    ports:
+      - "${DB_PORT:-3307}:3306"
+    volumes:
+      - gpas_mysql_data:/var/lib/mysql
+      - ./schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_ROOT_PASSWORD:-gpas_root_2024}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - gpas-network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gpas-app
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      PORT: 3000
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: ${DB_USER:-gpas_user}
+      DB_PASSWORD: ${DB_PASSWORD:-gpas_secure_pass}
+      DB_NAME: ${DB_NAME:-gpas_db}
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      NODE_ENV: production
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - gpas-network
+
+volumes:
+  gpas_mysql_data:
+    driver: local
+
+networks:
+  gpas-network:
+    driver: bridge
