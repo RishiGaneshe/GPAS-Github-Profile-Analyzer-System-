@@ -211,7 +211,3 @@ To use this pipeline, configure the following secrets in your repository setting
 - `ENV_FILE_PROD`: The complete contents of your production `.env` file.
 
 ---
-
-## License
-
-ISC
